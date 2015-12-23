@@ -122,18 +122,56 @@ sub gextri {
 } ## --- end sub gextri
 #
 
+
+#===  FUNCTION  ================================================================
+#         NAME: insertion_merge
+#      PURPOSE: merge two sorted arrays into a large array
+#   PARAMETERS: ????
+#      RETURNS: merged array
+#  DESCRIPTION: ????
+#       THROWS: no exceptions
+#     COMMENTS: none
+#     SEE ALSO: n/a
+#===============================================================================
+
+sub insertion_merge {
+    my	( $large, $small )	= @_;
+    my  $merged;
+
+    $#$merged = @$large + @$small - 1;
+    
+    for ( my ($i, $j, $k) = (0,0,0); $i < @$merged ; ++$i  ) {
+        if($j==@$large){
+            $merged->[$i] = $small->[$k++];
+            next;
+        }
+        if($k==@$small){
+            $merged->[$i] = $large->[$j++];
+            next;
+        }
+        $merged->[$i] = $large->[$j] < $small->[$k] ? $large->[$j++] : $small->[$k++];
+    }
+
+    return $merged;
+} ## --- end sub insertion_merge
 #-------------------------------------------------------------------------------
 #  below this is test code
 #-------------------------------------------------------------------------------
 my @array = (4,4,4,4,4);
 
-say "@array";
-election_sort(\@array);
-say "@array";
+#say "@array";
+#election_sort(\@array);
+#say "@array";
+#
+#
+#my ($i_min, $i_max) = gextri(sub{$_[0] <=> $_[1]},\@array);
+#say "@$i_min";
+#say "@$i_max";
+#
+my @large = qw(1 4 9 16 25 36 49 64 81 100);
+my @small = qw(2 5 11 17 23);
+my $merge = insertion_merge(\@large, \@small);
+say "@{$merge}"
 
-
-my ($i_min, $i_max) = gextri(sub{$_[0] <=> $_[1]},\@array);
-say "@$i_min";
-say "@$i_max";
 
 
