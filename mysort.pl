@@ -154,6 +154,31 @@ sub insertion_merge {
 
     return $merged;
 } ## --- end sub insertion_merge
+
+
+#===  FUNCTION  ================================================================
+#         NAME: insert_sort
+#      PURPOSE: the implement of the insert sort algorithm
+#   PARAMETERS: ????
+#      RETURNS: ????
+#  DESCRIPTION: ????
+#       THROWS: no exceptions
+#     COMMENTS: none
+#     SEE ALSO: n/a
+#===============================================================================
+sub insert_sort {
+    my	( $array )	= @_;
+
+    for ( my $i = 0; $i<$#$array; ++$i  ) {
+        my $pos = $i;
+        my $min = $array->[$pos];
+        for ( my $j = $i + 1; $j < @$array; ++$j ) {
+            ($pos,$min) = ($j,$array->[$j]) if $array->[$j] < $min; 
+        }
+        splice @$array , $i , 0 , splice @$array , $pos , 1 if $pos > $i;
+    }
+} ## --- end sub insert_sort
+
 #-------------------------------------------------------------------------------
 #  below this is test code
 #-------------------------------------------------------------------------------
