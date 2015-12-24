@@ -179,10 +179,59 @@ sub insert_sort {
     }
 } ## --- end sub insert_sort
 
+
+#===  FUNCTION  ================================================================
+#         NAME: heapsort
+#      PURPOSE: the implement of heap sort
+#   PARAMETERS: ????
+#      RETURNS: ????
+#  DESCRIPTION: ????
+#       THROWS: no exceptions
+#     COMMENTS: none
+#     SEE ALSO: n/a
+#===============================================================================
+
+sub heapsort {
+    my	( $array )	= @_;
+
+    for ( my $index = int(($#$array-1)/2); $index >= 0; $index--   ) {
+        heapify($array,$index);
+    }
+
+    for (my $last = $#$array;$last >=0 ; ){
+        @$array[0,$last] = @$array[$last,0];
+        heapify($array,0,$last--);
+    }
+
+    return ;
+} ## --- end sub heapsort
+
+
+sub heapify {
+    my	( $array,$index,$last )	= @_;
+    my $value = $array->[$index];
+
+    $last = @$array unless defined $last;
+
+
+    while ( 2*$index+1 < $last ) {
+        my $child = 2*$index+1;
+              if($child+1<$last){
+            $child+=1 if ($array->[$child]) < ($array->[$child + 1]);
+        }
+        last if $value > $array->[$child];
+        $array->[$index] = $array->[$child];
+        $index = $child;
+    }
+    $array->[$index] = $value;
+
+} ## --- end sub heapify
+
+
 #-------------------------------------------------------------------------------
 #  below this is test code
 #-------------------------------------------------------------------------------
-my @array = (4,4,4,4,4);
+#my @array = (4,4,4,4,4);
 
 #say "@array";
 #election_sort(\@array);
@@ -193,10 +242,16 @@ my @array = (4,4,4,4,4);
 #say "@$i_min";
 #say "@$i_max";
 #
-my @large = qw(1 4 9 16 25 36 49 64 81 100);
-my @small = qw(2 5 11 17 23);
-my $merge = insertion_merge(\@large, \@small);
-say "@{$merge}"
+#my @large = qw(1 4 9 16 25 36 49 64 81 100);
+#my @small = qw(2 5 11 17 23);
+#my $merge = insertion_merge(\@large, \@small);
+#say "@{$merge}"
+#
+use integer;
+my  @array = qw(12 4 6 8 43 23 44 21 13 42 1 2);
+say "@array";
+heapsort(\@array);
+say "@array";
 
 
 
