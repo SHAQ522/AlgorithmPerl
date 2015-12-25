@@ -179,7 +179,6 @@ sub insert_sort {
     }
 } ## --- end sub insert_sort
 
-
 #===  FUNCTION  ================================================================
 #         NAME: heapsort
 #      PURPOSE: the implement of heap sort
@@ -230,9 +229,66 @@ sub heapify {
 
 #-------------------------------------------------------------------------------
 #  below this is test code
-#-------------------------------------------------------------------------------
-#my @array = (4,4,4,4,4);
 
+#===  FUNCTION  ================================================================
+#         NAME: mergesort
+#      PURPOSE: the implement of the merge sort algorithm
+#   PARAMETERS: ????
+#      RETURNS: ????
+#  DESCRIPTION: ????
+#       THROWS: no exceptions
+#     COMMENTS: none
+#     SEE ALSO: n/a
+#===============================================================================
+sub merge_sort {
+    mergesort_recursive($_[0],0,$#{$_[0]});
+}
+
+
+sub mergesort_recursive {
+    my	( $array, $start, $last )	= @_;
+
+    if($start < $last) {
+        local $^W = 0;
+        my $middle = int(($start + $last)/2);
+        mergesort_recursive($array,$start,$middle);
+        mergesort_recursive($array,$middle+1,$last);
+        merge($array,$start,$middle,$last);
+    }
+} ## --- end sub mergesort_recursive
+
+sub merge {
+    my	( $array, $start, $middle, $last )	= @_;
+    my $work;
+
+    for(my $i=$start; $i<=$last; ++$i){
+        $work->[$i] = $array->[$i];
+    }
+
+    for(my ($i,$j,$k)=($start,$start,$middle+1);$i<=$last;++$i){
+
+        if($j>$middle){
+            $array->[$i] = $work->[$k++];
+            next;
+        }
+        if($k>$last){
+            $array->[$i] = $work->[$j++];
+            next;
+        }
+        $array->[$i] = $work->[$j] < $work->[$k] ? $work->[$j++] : $work->[$k++];
+
+    }
+}
+
+
+
+
+#-------------------------------------------------------------------------------
+#  below this is test code
+#-------------------------------------------------------------------------------
+#my @array = (41,14,18,24,34,56,22,11,2);
+#say "@array";
+#merge_sort(\@array);
 #say "@array";
 #election_sort(\@array);
 #say "@array";
@@ -246,7 +302,8 @@ sub heapify {
 #my @small = qw(2 5 11 17 23);
 #my $merge = insertion_merge(\@large, \@small);
 #say "@{$merge}"
-#
+
+
 use integer;
 my  @array = qw(12 4 6 8 43 23 44 21 13 42 1 2);
 say "@array";
